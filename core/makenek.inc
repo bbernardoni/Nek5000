@@ -8,6 +8,10 @@ function make_3rd_party() {
   ./install
   cd $CASEDIR 
 
+  cd $SOURCE_ROOT/3rd_party/nek_sensei
+  ./install $SENSEI_INSTALL
+  cd $CASEDIR
+
   if [ $CVODE -ne 0 ]; then
      cd $SOURCE_ROOT/3rd_party/cvode
      ./install
@@ -18,6 +22,8 @@ function make_3rd_party() {
 function clean_3rd_party() {
   echo "cleaning 3rd-party software ..."
   cd $SOURCE_ROOT/3rd_party/gslib; ./install clean 2>/dev/null
+  cd $CASEDIR
+  cd $SOURCE_ROOT/3rd_party/nek_sensei; ./install clean 2>/dev/null
   cd $CASEDIR
   cd $SOURCE_ROOT/3rd_party/cvode; ./install clean 2>/dev/null
   cd $CASEDIR
@@ -224,6 +230,10 @@ if [ $PROFILING -ne 0 ]; then
   fi
 fi
 
+if [ $SENSEI -ne 0 ]; then
+  PPLIST="${PPLIST} SENSEI"
+fi
+
 PPLIST="${PPLIST}"
 
 # add user defined preprocessor symbols
@@ -314,6 +324,24 @@ if [ $VISIT -ne 0 ]; then
       -e "s:^VISIT_IFLAGS[ ]*=.*:VISIT_IFLAGS\:=-I${VISIT_INC}:" \
       -e "s:^VISIT_LFLAGS[ ]*=.*:VISIT_LFLAGS\:=-L${VISIT_LIB} -lsimV2 -lsimV2f -ldl -lstdc++:" \
       -e "s/^PPS[ ]*=.*/PPS=${PPLIST} VISIT ${VISIT_STOP}/" \
+      .makefile > .makefile.tmp
+
+  mv .makefile.tmp .makefile
+  echo ""
+fi
+
+if [ $SENSEI -ne 0 ]; then
+  echo ""
+  echo "SENSEI enabled"
+  echo "  SENSEI_INSTALL = ($SENSEI_INSTALL)"
+
+  NEK_SENSEI_LIB="$SOURCE_ROOT/3rd_party/nek_sensei/lib"
+  source ${SENSEI_INSTALL}/bin/sensei_config
+  SENSEI_DEPS="-Wl,--start-group $SENSEI_LIBRARIES -Wl,--end-group"
+  SENSEI_LFLAGS="-L$NEK_SENSEI_LIB -lneksensei -lstdc++ $SENSEI_DEPS"
+
+  sed -e "s/^SENSEI[ ]*=.*/SENSEI:=${SENSEI}/" \
+      -e "s:^SENSEI_LFLAGS[ ]*=.*:SENSEI_LFLAGS\:=${SENSEI_LFLAGS}:" \
       .makefile > .makefile.tmp
 
   mv .makefile.tmp .makefile

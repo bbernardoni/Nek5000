@@ -162,6 +162,7 @@ c      COMMON /SCRCG/ DUMM10(LX1,LY1,LZ1,LELT,1)
 
       jp = 0            ! Set perturbation field count to 0 for baseline flow
 
+      call nek_sensei_init()
       call in_situ_init()
 
       call time00       !     Initalize timers to ZERO
@@ -223,6 +224,7 @@ c-----------------------------------------------------------------------
          call userchk
          tuchk = tuchk + dnekclock()-etime1
          call prepost (ifoutfld,'his')
+         call nek_sensei_check()
          call in_situ_check()
          if (mod(kstep,100).eq.0 ..and. lastep.eq.0) call runstat
          if (lastep .eq. 1) goto 1001
@@ -358,6 +360,7 @@ c      else
 c         call fgslib_crs_free(xxth(1))
 c      endif
 
+      call nek_sensei_end()
       call in_situ_end()
       call exitt0()
 

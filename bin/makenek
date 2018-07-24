@@ -43,6 +43,9 @@
 #VISIT_INSTALL="/path/to/visit/current/linux-x86_64/"
 #VISIT_STOP=true
 
+# SENSEI in situ (default 0)
+#SENSEI=1
+#SENSEI_INSTALL="/path/to/sensei/"
 
 ###############################################################################
 # DONT'T TOUCH WHAT FOLLOWS !!!
@@ -59,6 +62,7 @@ mver=17.0.4
 : ${MPI:=1}
 : ${PROFILING:=1}
 : ${VISIT:=0}
+: ${SENSEI:=0}
 : ${PPLIST:=""}
 
 # overwrite source path with optional 2nd argument

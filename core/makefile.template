@@ -19,6 +19,8 @@ USR_LFLAGS=
 VISIT=0
 VISIT_IFLAGS=
 VISIT_LFLAGS=
+SENSEI=0
+SENSEI_LFLAGS=
 
 ################################################################################
 
@@ -39,6 +41,7 @@ byte.o chelpers.o byte_mpi.o postpro.o dprocmap.o interp.o \
 cvode_driver.o nek_comm.o multimesh.o \
 vprops.o makeq_aux.o \
 papi.o nek_in_situ.o \
+nek_sensei.o \
 reader_rea.o reader_par.o reader_re2.o \
 finiparser.o iniparser.o dictionary.o \
 hpf.o
@@ -68,6 +71,10 @@ ifneq ($(VISIT),0)
   VISITNEK_INCLUDES:=-I$S/3rd_party
   VISITO := visit.o 
   USR_LFLAGS := ${USR_LFLAGS} $(VISIT_LFLAGS)
+endif
+# SENSEI ########################################################################
+ifneq ($(SENSEI),0)
+  USR_LFLAGS := ${USR_LFLAGS} $(SENSEI_LFLAGS)
 endif
 
 ifeq ($(MPI),0)
@@ -241,6 +248,7 @@ $(OBJDIR)/dsygv.o     	:$S/3rd_party/dsygv.f;  	$(FC) -c $(L0) $(PPS_F) $< -o $@
 $(OBJDIR)/blas.o   	:$S/3rd_party/blas.f;		$(FC) -c $(L0) $(PPS_F) $< -o $@
 $(OBJDIR)/visit.o        :$S/3rd_party/visit.f;		$(FC) -c $(VISIT_IFLAGS) $(FL2) $< -o $@
 $(OBJDIR)/nek_in_situ.o  :$S/3rd_party/nek_in_situ.f;	$(FC) -c $(VISIT_IFLAGS) $(FL2) $< -o $@
+$(OBJDIR)/nek_sensei.o   :$S/3rd_party/nek_sensei.f;	$(FC) -c $(FL2) $< -o $@
 $(OBJDIR)/finiparser.o   :$S/3rd_party/finiparser.c;    $(CC)  -c $(cFL2) $(JL) $< -o $@
 $(OBJDIR)/iniparser.o    :$S/3rd_party/iniparser.c;     $(CC)  -c $(cFL2) $(JL) $< -o $@
 $(OBJDIR)/dictionary.o   :$S/3rd_party/dictionary.c;    $(CC)  -c $(cFL2) $(JL) $< -o $@
