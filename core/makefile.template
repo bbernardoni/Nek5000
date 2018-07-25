@@ -74,6 +74,7 @@ ifneq ($(VISIT),0)
 endif
 # SENSEI ########################################################################
 ifneq ($(SENSEI),0)
+  NEK_SENSEI_FLAGS := $(PPPO)-DCASENAME="\"$(CASENAME)\""
   USR_LFLAGS := ${USR_LFLAGS} $(SENSEI_LFLAGS)
 endif
 
@@ -248,7 +249,7 @@ $(OBJDIR)/dsygv.o     	:$S/3rd_party/dsygv.f;  	$(FC) -c $(L0) $(PPS_F) $< -o $@
 $(OBJDIR)/blas.o   	:$S/3rd_party/blas.f;		$(FC) -c $(L0) $(PPS_F) $< -o $@
 $(OBJDIR)/visit.o        :$S/3rd_party/visit.f;		$(FC) -c $(VISIT_IFLAGS) $(FL2) $< -o $@
 $(OBJDIR)/nek_in_situ.o  :$S/3rd_party/nek_in_situ.f;	$(FC) -c $(VISIT_IFLAGS) $(FL2) $< -o $@
-$(OBJDIR)/nek_sensei.o   :$S/3rd_party/nek_sensei.f;	$(FC) -c $(FL2) $< -o $@
+$(OBJDIR)/nek_sensei.o   :$S/3rd_party/nek_sensei.f;	$(FC) -c $(NEK_SENSEI_FLAGS) $(FL2) $< -o $@
 $(OBJDIR)/finiparser.o   :$S/3rd_party/finiparser.c;    $(CC)  -c $(cFL2) $(JL) $< -o $@
 $(OBJDIR)/iniparser.o    :$S/3rd_party/iniparser.c;     $(CC)  -c $(cFL2) $(JL) $< -o $@
 $(OBJDIR)/dictionary.o   :$S/3rd_party/dictionary.c;    $(CC)  -c $(cFL2) $(JL) $< -o $@

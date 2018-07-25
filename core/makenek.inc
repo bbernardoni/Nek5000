@@ -8,8 +8,10 @@ function make_3rd_party() {
   ./install
   cd $CASEDIR 
 
-  cd $SOURCE_ROOT/3rd_party/nek_sensei
-  ./install $SENSEI_INSTALL
+  if [ $SENSEI -ne 0 ]; then
+    cd $SOURCE_ROOT/3rd_party/nek_sensei
+    ./install $SENSEI_INSTALL
+  fi
   cd $CASEDIR
 
   if [ $CVODE -ne 0 ]; then
