@@ -8,7 +8,7 @@ c-----------------------------------------------------------------------
       call sensei_bridge_initialize(nekcomm, CASENAME//char(0), nelt,
      &       lx1, ly1, lz1, xm1, ym1, zm1,
      &       lx2, ly2, lz2, xm2, ym2, zm2,
-     &       vx, vy, vz, pr)
+     &       vx, vy, vz, pr, t, ldimt)
 #endif
       end
 c-----------------------------------------------------------------------
